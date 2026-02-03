@@ -50,6 +50,12 @@ aside li a{
     text-decoration: none;
 }
 
+aside form button{
+    all: unset;
+    color: white;
+    cursor: pointer;
+}
+
 .content{
     display: flex
 }
