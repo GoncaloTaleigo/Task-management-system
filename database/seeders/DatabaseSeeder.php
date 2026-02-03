@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // User::factory()->count(10)->employee()->create();
+        User::factory()->count(5)->employee()->create();
         User::factory()->count(2)->admin()->create();
     }
 }

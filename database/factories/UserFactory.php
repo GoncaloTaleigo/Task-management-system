@@ -58,6 +58,7 @@ class UserFactory extends Factory
     {
         return $this->state(fn () => [
             'role' => 'employee',
+            'password' => Hash::make('user123'),
         ]);
     }
 }

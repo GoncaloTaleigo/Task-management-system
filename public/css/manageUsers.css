@@ -1,0 +1,12 @@
+table{
+    width: 80%;
+    border-collapse: collapse;
+    border: 1px solid black;
+    
+    
+}
+
+table th,table td{
+    text-align: left;
+   border: 1px solid black;
+}

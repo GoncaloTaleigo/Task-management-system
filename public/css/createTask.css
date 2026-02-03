@@ -1,0 +1,19 @@
+.content > form {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+
+.form-element {
+    display: flex;
+    flex-direction: column;
+}
+
+.success {
+    background: #80CE91;
+    color: #00CF22;
+    width: 100%;
+    padding: 1rem;
+}

@@ -13,7 +13,7 @@
 
     <div class="login-container">
         <h1>LOGIN</h1>
-        <form action="/" method="post">
+        <form action="/login" method="post">
             @csrf
             <div class="form-element">
                 <label for="">User Name</label>
