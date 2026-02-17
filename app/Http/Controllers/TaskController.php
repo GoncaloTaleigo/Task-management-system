@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+use App\Notifications\TaskAssign;
 
 class TaskController extends Controller
 {
@@ -15,13 +19,37 @@ class TaskController extends Controller
     }
 
 
-    public function showAll()
+    public function showAll(Request $request)
     {
 
-        $tasks = Task::all();
+        $user = Auth::user();
+        $filter = $request->query("filter", "all");
+        $today = Carbon::today()->toDateString();
+
+        if ($user->role !== 'admin' && $request->has('filter')) {
+            abort(403);
+        }
+
+        if ($user->role == "employee") {
+            $query = Task::where('assigned_to', $user->id);
+        } else {
+            $query = Task::query();
+        }
+
+        // Apply date filter
+        if ($filter === 'today') {
+            $query->whereDate('due_date', $today);
+        } elseif ($filter === 'overdue') {
+            $query->whereDate('due_date', '<', $today);
+        } elseif ($filter === 'no-deadline') {
+            $query->whereNull('due_date');
+        }
+
+        $tasks = $query->get();
 
         return view("allTasks", compact("tasks"));
     }
+
 
 
 
@@ -31,12 +59,15 @@ class TaskController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:100',
             'description' => 'required|string|max:200',
-            'due_date' => '',
-            'assigned_to' => ''
+            'due_date' => 'nullable|date',
+            'assigned_to' => 'required|exists:users,id'
         ]);
 
 
-        Task::create($validated);
+        $task=Task::create($validated);
+
+        $employee = User::findOrFail($request->assigned_to);
+        $employee->notify(new TaskAssign($task));
 
         return redirect("/createTask")->with('success', 'Task created successfully!');
     }
@@ -44,20 +75,37 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         //redireciona para uma página para editar com os dados do user
-        return view("editTask", compact("task"));
+        $employees = User::where("role", "employee")->get();
+        return view("editTask", compact("task", "employees"));
     }
-    public function update(Request $request, User $user)
+
+
+    public function update(Request $request, Task $task)
     {
 
-        $validated = $request->validate([
-            'full_name' => 'required|string|max:50',
-            'username' => 'required|string|max:50',
-            'password' => 'required',
-        ]);
 
-        $user->update($validated);
+        $user = Auth::user();
 
-        return redirect()->route('manageUsers');
+
+        if ($user->role == "admin") {
+            $validated = $request->validate([
+                'title' => 'required|string|max:50',
+                'description' => 'required|string|max:50',
+                'due_date' => 'required',
+                'assigned_to' => 'required',
+            ]);
+        } else if ($user->role == "employee") {
+            $validated = $request->validate([
+                'status' => 'required|string',
+            ]);
+        }
+
+        $validated["status"] = Str::lower($validated["status"]);
+
+
+        $task->update($validated);
+
+        return redirect()->route('tasks');
     }
 
 

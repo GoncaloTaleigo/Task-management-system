@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class ManageUsersController extends Controller
 {
@@ -12,6 +13,30 @@ class ManageUsersController extends Controller
         $users = User::all();
 
         return view("manageUsers", compact("users"));
+    }
+
+    public function showCreatePage()
+    {
+        return view("createUser");
+    }
+
+    public function create(Request $request)
+    {
+
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:50',
+            'username' => 'required|string|max:50',
+            'email' => 'required|string|max:50',
+            'password' => 'required',
+        ]);
+
+        $validated['role'] = 'employee';
+
+        $validated["password"]=Hash::make($validated["password"]);
+
+        User::create($validated);
+
+        return redirect("/manageUsers")->with('success', 'User created successfully!');
     }
 
 
@@ -44,5 +69,11 @@ class ManageUsersController extends Controller
         return redirect()
             ->route('manageUsers')
             ->with('success', 'User deleted successfully.');
+    }
+
+    public function profile(Request $request){
+        $user=$request->user();
+
+        return view("profile",compact("user"));
     }
 }
