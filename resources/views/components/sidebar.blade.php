@@ -18,6 +18,20 @@
                     </form>
                 </li>
             @endif
+            @if (auth()->user()->role === 'employee')
+                <li><img src="{{ asset('images/dashboard.png') }}" alt=""><a
+                        href="{{ route('dashboard') }}">Dashboard</a>
+                </li>
+                <li><a href="{{ route('tasks') }}">My task</a></li>
+                <li><a href="{{ route('profile') }}">Profile</a></li>
+                <li><a href="{{ route('notifications') }}">Notifications</a></li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+            @endif
 
 
         @endauth

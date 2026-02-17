@@ -18,6 +18,10 @@
     <div class="content">
         <x-sidebar></x-sidebar>
 
+        <h1>Manage users</h1>
+         <form action="{{ route('createUser') }}" method="get">
+            <button>Add user</button>
+         </form>
 
         <table>
             <thead>

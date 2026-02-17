@@ -18,21 +18,45 @@
 
 
         <div class="content__list">
-            <div>
-                {{ $employees }} Employees
+            @auth
+                @if (auth()->user()->role == 'admin')
+                    <div>
+                        {{ $employees }} Employees
 
-            </div>
-            <div>
-                {{ $tasks }} Tasks
+                    </div>
+                    <div>
+                        {{ $tasks }} Tasks
 
-            </div>
+                    </div>
 
-            <div>
-                {{ $dueDate }} due today
-            </div>
-            <div>
-                {{ $noDeadline }} No deadline
-            </div>
+                    <div>
+                        {{ $dueDate }} due today
+                    </div>
+                    <div>
+                        {{ $noDeadline }} No deadline
+                    </div>
+                    <div>
+                        {{ $pending }} Pending
+                    </div>
+                    <div>
+                        {{ $inProgress }} In progress
+                    </div>
+                    <div>
+                        {{ $completed }} Completed
+                    </div>
+                    <div>
+                        {{ $overdue }} Overdue
+                    </div>
+                @endif
+
+                @if (auth()->user()->role == 'employee')
+                    <div>
+                        {{ $myTasks }}My tasks
+                    </div>
+
+            
+                @endif
+            @endauth
 
         </div>
     </div>
