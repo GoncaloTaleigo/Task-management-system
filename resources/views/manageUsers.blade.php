@@ -18,44 +18,49 @@
     <div class="content">
         <x-sidebar></x-sidebar>
 
-        <h1>Manage users</h1>
-         <form action="{{ route('createUser') }}" method="get">
-            <button>Add user</button>
-         </form>
 
-        <table>
-            <thead>
-                <th>#</th>
-                <th>Full name</th>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Actions</th>
-            </thead>
+        <div class="content__users">
+            <h1>Manage users</h1>
+            <form action="{{ route('createUser') }}" method="get">
+                <button>Add user</button>
+            </form>
 
-            <tbody>
-                @foreach ($users as $user)
-                    <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->full_name }}</td>
-                        <td>{{ $user->username }}</td>
-                        <td>{{ $user->role }}</td>
-                        <td>
-                            <a href="{{ route('users.edit', $user) }}">Edit</a>
-                            <form action="{{ route('users.delete', $user->id) }}" method="POST"
-                                style="display:inline;">
-                                @csrf
-                                @method('DELETE')
+            <table>
+                <thead>
+                    <th>#</th>
+                    <th>Full name</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </thead>
 
-                                <button type="submit" onclick="return confirm('Delete this user?')">
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
+                <tbody>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->full_name }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->role }}</td>
+                            <td>
+                                <a href="{{ route('users.edit', $user) }}">Edit</a>
+                                <form action="{{ route('users.delete', $user->id) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
 
-            </tbody>
-        </table>
+                                    <button type="submit" onclick="return confirm('Delete this user?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+
+        </div>
+
     </div>
 
 
