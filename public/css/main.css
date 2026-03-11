@@ -8,6 +8,17 @@ header {
     width: 100vw;
     height: 10vh;
     background: #23242b;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+}
+
+header h2 {
+    color: white;
+}
+
+header span {
+    color: blue;
 }
 
 aside {
@@ -25,55 +36,69 @@ aside img {
     height: 6rem;
 }
 
-aside ul{
+aside ul {
     list-style: none;
     text-decoration: none;
     display: flex;
     flex-direction: column;
     gap: 1rem;
- 
+
 }
 
 
-aside li{
+aside li {
     display: flex;
     gap: 1rem;
 }
 
-aside li img{
+aside li img {
     width: 1rem;
     height: 1rem;
 }
 
-aside li a{
+aside li a {
     color: white;
     text-decoration: none;
 }
 
-aside form button{
+aside form button {
     all: unset;
     color: white;
     cursor: pointer;
 }
 
-.content{
-    display: flex
+.content {
+    display: flex;
+
 }
 
-.content__list{
-    display: flex;
+.content__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+    padding: 2rem;
+    height: 50vh;
+    width: 50%;
+}
+
+
+.content__list div {
+    background: #262931;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content__users{
     padding: 2rem;
 }
 
+table th{
+    padding: 0 2rem;
+}
 
-.content__list div{
-     background: #262931;
-     width: 5rem;
-     height: 5rem;
-     color: white;
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-    }
+table td{
+    padding: 1rem;
+}

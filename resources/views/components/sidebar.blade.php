@@ -5,8 +5,7 @@
         @auth
 
             @if (auth()->user()->role === 'admin')
-                <li><img src="{{ asset('images/dashboard.png') }}" alt=""><a
-                        href="{{ route('dashboard') }}">Dashboard</a>
+                <li><a href="{{ route('dashboard') }}">Dashboard</a>
                 </li>
                 <li><a href="{{ route('manageUsers') }}">Manage users</a></li>
                 <li><a href="{{ route('createTask') }}">Create task</a></li>
